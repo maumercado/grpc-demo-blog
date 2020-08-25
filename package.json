@@ -1,0 +1,22 @@
+{
+  "name": "grpc-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "google-protobuf": "^3.13.0",
+    "grpc": "^1.24.3",
+    "grpc-tools": "^1.9.1",
+    "knex": "^0.21.5",
+    "pg": "^8.3.2"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
+  }
+}
