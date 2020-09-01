@@ -42,7 +42,26 @@ function callCreateBlog () {
   })
 }
 
+function callReadBlog () {
+  const client = new BlogServiceClient('127.0.0.1:50051', grpc.credentials.createInsecure())
+
+  const readBlogRequest = new blogs.ReadBlogRequest()
+  readBlogRequest.setBlogId('1')
+  client.readBlog(readBlogRequest, (err, response) => {
+    if (err) {
+      if (err.code === grpc.status.NOT_FOUND) {
+        console.error('Not found')
+        return
+      }
+      console.error('Error:', err)
+      return
+    }
+    console.log('Found blog', response.toString())
+  })
+}
+
 function main () {
+  callReadBlog()
   callListBlog()
   callCreateBlog()
 }
