@@ -60,10 +60,37 @@ function callReadBlog () {
   })
 }
 
+function callUpdateBlog () {
+  const client = new BlogServiceClient('127.0.0.1:50051', grpc.credentials.createInsecure())
+
+  const updateBlogRequest = new blogs.UpdateBlogRequest()
+  const newBlog = new blogs.Blog()
+  newBlog.setId('2')
+  newBlog.setAuthor('Mau')
+  newBlog.setTitle('Mau Test')
+  newBlog.setContent('This is good')
+
+  updateBlogRequest.setBlog(newBlog)
+  console.log('Updating blog', newBlog)
+
+  client.updateBlog(updateBlogRequest, (err, response) => {
+    if (err) {
+      if (err.code === grpc.status.NOT_FOUND) {
+        console.error('Not found')
+        return
+      }
+      console.error('Error:', err)
+      return
+    }
+    console.log('Blog Updated', response.toString())
+  })
+}
+
 function main () {
-  callReadBlog()
-  callListBlog()
-  callCreateBlog()
+  callUpdateBlog()
+  // callReadBlog()
+  // callListBlog()
+  // callCreateBlog()
 }
 
 main()

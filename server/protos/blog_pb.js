@@ -242,7 +242,7 @@ proto.blog.UpdateBlogRequest.prototype.toObject = function(opt_includeInstance) 
  */
 proto.blog.UpdateBlogRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    blogId: jspb.Message.getFieldWithDefault(msg, 1, "")
+    blog: (f = msg.getBlog()) && proto.blog.Blog.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -280,8 +280,9 @@ proto.blog.UpdateBlogRequest.deserializeBinaryFromReader = function(msg, reader)
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setBlogId(value);
+      var value = new proto.blog.Blog;
+      reader.readMessage(value,proto.blog.Blog.deserializeBinaryFromReader);
+      msg.setBlog(value);
       break;
     default:
       reader.skipField();
@@ -312,31 +313,51 @@ proto.blog.UpdateBlogRequest.prototype.serializeBinary = function() {
  */
 proto.blog.UpdateBlogRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getBlogId();
-  if (f.length > 0) {
-    writer.writeString(
+  f = message.getBlog();
+  if (f != null) {
+    writer.writeMessage(
       1,
-      f
+      f,
+      proto.blog.Blog.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional string blog_id = 1;
- * @return {string}
+ * optional Blog blog = 1;
+ * @return {?proto.blog.Blog}
  */
-proto.blog.UpdateBlogRequest.prototype.getBlogId = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+proto.blog.UpdateBlogRequest.prototype.getBlog = function() {
+  return /** @type{?proto.blog.Blog} */ (
+    jspb.Message.getWrapperField(this, proto.blog.Blog, 1));
 };
 
 
 /**
- * @param {string} value
+ * @param {?proto.blog.Blog|undefined} value
+ * @return {!proto.blog.UpdateBlogRequest} returns this
+*/
+proto.blog.UpdateBlogRequest.prototype.setBlog = function(value) {
+  return jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.blog.UpdateBlogRequest} returns this
  */
-proto.blog.UpdateBlogRequest.prototype.setBlogId = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+proto.blog.UpdateBlogRequest.prototype.clearBlog = function() {
+  return this.setBlog(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.blog.UpdateBlogRequest.prototype.hasBlog = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 

@@ -11,7 +11,7 @@ service BlogService {
 
 
 message UpdateBlogRequest {
-  string blog_id = 1;
+  Blog blog = 1;
 }
 
 message UpdateBlogResponse {
