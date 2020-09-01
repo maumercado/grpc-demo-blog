@@ -5,8 +5,17 @@ package blog;
 service BlogService {
   rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse) {};
   rpc ListBlog (ListBlogRequest) returns (stream ListBlogResponse) {};
+  rpc ReadBlog (ReadBlogRequest) returns (ReadBlogResponse) {};
 }
 
+
+message ReadBlogRequest {
+  string blog_id = 1;
+}
+
+message ReadBlogResponse {
+  Blog blog = 1;
+}
 
 message Blog {
   string id = 1;
