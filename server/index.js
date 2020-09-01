@@ -78,9 +78,38 @@ async function readBlog (call, callback) {
   }
 }
 
+async function updateBlog (call, callback) {
+  const blogId = call.request.getBlog().getBlogId()
+
+  console.log('Request to update blog', blogId)
+
+  const data = await knex('blogs')
+    .where({ id: parseInt(blogId) })
+    .update({
+      author: call.request.getBlog().getAuthor(),
+      title: call.request.getBlog().getTitle(),
+      content: call.request.getBlog().getContent()
+    }).returning()
+
+  if (data) {
+    const blog = new blogs.Blog()
+    blog.setId(blogId)
+    blog.setAuthor(data.author)
+    blog.setTitle(data.title)
+    blog.setContent(data.content)
+    const updateBlogResponse = new blogs.UpdateBlogResponse()
+    updateBlogResponse.setBlog(blog)
+    console.log('Updated blog', updateBlogResponse.getBlog())
+    return callback(null, updateBlogResponse)
+  } else {
+    console.log('No Blog Found')
+    return callback({ code: grpc.status.NOT_FOUND, message: 'Blog not found' })
+  }
+}
+
 function main () {
   const server = new grpc.Server()
-  server.addService(BlogServiceService, { listBlog, createBlog, readBlog })
+  server.addService(BlogServiceService, { listBlog, createBlog, readBlog, updateBlog })
   server.bind('127.0.0.1:50051', grpc.ServerCredentials.createInsecure())
   server.start()
   console.log('Blog Service Started at 127.0.0.1:50051')
