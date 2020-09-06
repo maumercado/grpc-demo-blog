@@ -86,8 +86,28 @@ function callUpdateBlog () {
   })
 }
 
+function callDeleteBlog () {
+  const client = new BlogServiceClient('127.0.0.1:50051', grpc.credentials.createInsecure())
+
+  const blogId = '3'
+  const deleteBlogRequest = new blogs.DeleteBlogRequest()
+  deleteBlogRequest.setBlogId(blogId)
+  client.deleteBlog(deleteBlogRequest, (err, response) => {
+    if (err) {
+      if (err.code === grpc.status.NOT_FOUND) {
+        console.error('Not found')
+        return
+      }
+      console.error('Error:', err)
+    } else {
+      console.log('Deleted blog', response.toString())
+    }
+  })
+}
+
 function main () {
-  callUpdateBlog()
+  callDeleteBlog()
+  // callUpdateBlog()
   // callReadBlog()
   // callListBlog()
   // callCreateBlog()

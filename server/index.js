@@ -107,9 +107,29 @@ async function updateBlog (call, callback) {
   }
 }
 
+async function deleteBlog (call, callback) {
+  const blogId = call.request.getBlogId()
+  console.log('Received delete blog request', blogId)
+
+  const data = await knex('blogs')
+    .where({ id: parseInt(blogId) })
+    .delete()
+    .returning()
+
+  if (data) {
+    const deleteResponse = new blogs.DeleteBlogResponse()
+    deleteResponse.setBlogId(blogId)
+    console.log('Deleted blog', deleteResponse.toString())
+    callback(null, deleteResponse)
+  } else {
+    console.log('No Blog Found')
+    return callback({ code: grpc.status.NOT_FOUND, message: 'Blog not found' })
+  }
+}
+
 function main () {
   const server = new grpc.Server()
-  server.addService(BlogServiceService, { listBlog, createBlog, readBlog, updateBlog })
+  server.addService(BlogServiceService, { listBlog, createBlog, readBlog, updateBlog, deleteBlog })
   server.bind('127.0.0.1:50051', grpc.ServerCredentials.createInsecure())
   server.start()
   console.log('Blog Service Started at 127.0.0.1:50051')

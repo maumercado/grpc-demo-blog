@@ -3,12 +3,20 @@ syntax = "proto3";
 package blog;
 
 service BlogService {
+  rpc DeleteBlog (DeleteBlogRequest) returns (DeleteBlogResponse) {};
   rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse) {};
   rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse) {};
   rpc ListBlog (ListBlogRequest) returns (stream ListBlogResponse) {};
   rpc ReadBlog (ReadBlogRequest) returns (ReadBlogResponse) {};
 }
 
+message DeleteBlogRequest {
+  string blog_id = 1;
+}
+
+message DeleteBlogResponse {
+  string blog_id = 1;
+}
 
 message UpdateBlogRequest {
   Blog blog = 1;
