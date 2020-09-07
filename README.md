@@ -20,7 +20,7 @@ To start the client, simply uncomment any method you want to use at `./client/in
 node client/indext.js
 ```
 
-More about protobuffers
+### More about protobuffers
 
 - [official docs](https://grpc.io)
 - [source code](https://github.com/protocolbuffers/protobuf)
